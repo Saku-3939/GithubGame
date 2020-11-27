@@ -1,0 +1,37 @@
+{
+  "client": [
+    {
+      "services": {
+        "appinvite_service": {
+          "status": 1
+        }, 
+        "analytics_service": {
+          "status": 0
+        }
+      }, 
+      "oauth_client": [
+        {
+          "client_id": "37368225393-9jqq1advvaqcfp415gnfmkhsq0ceu13q.apps.googleusercontent.com"
+        }
+      ], 
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHfwTwy8n8_nGPiJ1LESVsT8a6YriAyGY"
+        }
+      ], 
+      "client_info": {
+        "mobilesdk_app_id": "1:37368225393:ios:30c330a57f788884fd85d0", 
+        "android_client_info": {
+          "package_name": "com.DefaultCompany.NewUnityProject1"
+        }
+      }
+    }
+  ], 
+  "configuration_version": "1", 
+  "project_info": {
+    "storage_bucket": "apigame-39.appspot.com", 
+    "project_id": "apigame-39", 
+    "firebase_url": "https://apigame-39.firebaseio.com", 
+    "project_number": "37368225393"
+  }
+}
