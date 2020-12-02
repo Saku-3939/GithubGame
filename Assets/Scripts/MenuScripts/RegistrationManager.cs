@@ -6,11 +6,13 @@ using UnityEngine.UI;
 using Proyecto26;
 using UnityEditor;
 using SimpleJSON;
+using UnityEngine.SceneManagement;
 
 public class RegistrationManager : MonoBehaviour
 {
     public InputField nameText;
     public InputField repoText;
+    public InputField identifyText;
 
     public static string playerName;
     public static string repoName;
@@ -26,6 +28,7 @@ public class RegistrationManager : MonoBehaviour
     {
         playerName = nameText.text;
         repoName = repoText.text;
+        
 
         StartCoroutine(GetData());
         
@@ -165,6 +168,11 @@ public class RegistrationManager : MonoBehaviour
         RestClient.Put("https://apigame-39.firebaseio.com/Ranking/" + playerName + ".json", user);
 
         
+    }
+
+    public void GoToHome()
+    {
+        SceneManager.LoadScene("Home");
     }
 
 }

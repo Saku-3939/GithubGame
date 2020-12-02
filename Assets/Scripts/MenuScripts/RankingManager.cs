@@ -18,6 +18,7 @@ public class RankingManager : MonoBehaviour
 
     public Text[] ranking;
     public Text[] rankingScore;
+    public Text[] rankingNumber;
 
     public Text rankingNameText;
     public Text scoreText;
@@ -72,7 +73,7 @@ public class RankingManager : MonoBehaviour
                 {
 
                     DataSnapshot data = result.Current;
-                    string name = (string)data.Child("userName").GetValue(true);
+                    string name = (string)data.Child("identifyName").GetValue(true);
                     //Firebaseの数値データはLong型となっているので、一度longで受け取った後にintにキャスト
                     int score = (int)(long)data.Child("followers").GetValue(true);
 
@@ -116,23 +117,22 @@ public class RankingManager : MonoBehaviour
                 {
 
                     DataSnapshot data = result.Current;
-                    string name = (string)data.Child("userName").GetValue(true);
+                    string name = (string)data.Child("identifyName").GetValue(true);
                     //Firebaseの数値データはLong型となっているので、一度longで受け取った後にintにキャスト
-                    float stddev = (long)data.Child("stddev").GetValue(true);
+                    double stddev = (double)data.Child("stddev").GetValue(true);
 
-                    float score = 100 - 100 * Mathf.Round(stddev);
+                    double sub = 100 * stddev;
 
-                    //float sub = 100 * stddev;
-
-                    //int score = 100 - (int)sub;
-
-                    Debug.Log(stddev);
+                    int score = 100 - (int)sub;
 
                     userList.Add(name);
-                    scoreList.Add((int)score);
+                    scoreList.Add(score);
 
                 }
+                userList.Reverse();
+                scoreList.Reverse();
             }
+
         });
     }
 
@@ -167,7 +167,7 @@ public class RankingManager : MonoBehaviour
                 {
 
                     DataSnapshot data = result.Current;
-                    string name = (string)data.Child("userName").GetValue(true);
+                    string name = (string)data.Child("identifyName").GetValue(true);
                     //Firebaseの数値データはLong型となっているので、一度longで受け取った後にintにキャスト
                     int score = (int)(long)data.Child("totalContribute").GetValue(true);
 
@@ -210,9 +210,51 @@ public class RankingManager : MonoBehaviour
                 {
 
                     DataSnapshot data = result.Current;
-                    string name = (string)data.Child("userName").GetValue(true);
+                    string name = (string)data.Child("identifyName").GetValue(true);
                     //Firebaseの数値データはLong型となっているので、一度longで受け取った後にintにキャスト
                     int score = (int)(long)data.Child("repositoryCount").GetValue(true);
+
+                    userList.Add(name);
+                    scoreList.Add(score);
+
+                }
+            }
+        });
+    }
+
+    public void GetGameScore()
+    {
+        _FirebaseDB.OrderByChild("gameScore").LimitToLast(4).GetValueAsync().ContinueWith(response =>
+        {
+            if (response.IsFaulted)
+            {
+                Debug.Log("エラーが発生しました");
+            }
+            else if (response.IsCompleted)
+            {
+                //Debug.Log("成功しました");
+                userList.Clear();
+                scoreList.Clear();
+
+                DataSnapshot snapshot = response.Result;
+                IEnumerator<DataSnapshot> result = snapshot.Children.GetEnumerator();
+                string jsonString = response.ToString();
+
+
+                JSONNode json = JSONNode.Parse(snapshot.GetRawJsonValue());
+
+                Debug.Log("呼び出されました");
+
+
+                while (result.MoveNext())
+                {
+
+                    DataSnapshot data = result.Current;
+                    string name = (string)data.Child("identifyName").GetValue(true);
+                    //Firebaseの数値データはLong型となっているので、一度longで受け取った後にintにキャスト
+                    int score = (int)(long)data.Child("gameScore").GetValue(true);
+
+                    
 
                     userList.Add(name);
                     scoreList.Add(score);

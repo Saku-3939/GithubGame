@@ -10,7 +10,8 @@ public class User
     public double stddev;
     public int followers;
     public int repositoryCount;
-   
+    public string identifyName;
+    public int gameScore;
 
     public User()
     {
@@ -20,5 +21,7 @@ public class User
         stddev = RegistrationManager.standartDeviation;
         followers = RegistrationManager.followerCount;
         userName = RegistrationManager.playerName;
+        identifyName = ResultManager.identifyName;
+        gameScore = ResultManager.gameScore;
     }
 }
