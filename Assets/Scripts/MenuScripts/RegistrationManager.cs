@@ -26,11 +26,21 @@ public class RegistrationManager : MonoBehaviour
 
     public void OnclickRegistration()
     {
-        playerName = nameText.text;
-        repoName = repoText.text;
-        
+        if(nameText.text != null && repoText.text != null)
+        {
+            playerName = nameText.text;
+            repoName = repoText.text;
+            PlayerPrefs.SetString("PlayerId", playerName);
+            PlayerPrefs.Save();
+            Debug.Log(PlayerPrefs.GetString("PlayerId"));
 
-        StartCoroutine(GetData());
+            StartCoroutine(GetData());
+        }
+        else
+        {
+            Debug.Log("GithubIDとリポジトリ名を入力してください");
+        }
+
         
     }
 
@@ -163,11 +173,14 @@ public class RegistrationManager : MonoBehaviour
 
     public void PostToDataBase()
     {
+        
         User user = new User();
+
+
 
         RestClient.Put("https://apigame-39.firebaseio.com/Ranking/" + playerName + ".json", user);
 
-        
+
     }
 
     public void GoToHome()

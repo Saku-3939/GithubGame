@@ -21,6 +21,7 @@ public class ResultManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        
         userName = StatusSetManage.registrationUser;
         waveCount = GameFlowManager.WaveCount;
         resultWave.text = "Your Result : Wave" + waveCount;
@@ -41,10 +42,19 @@ public class ResultManager : MonoBehaviour
         User user = new User();
 
         RestClient.Put("https://apigame-39.firebaseio.com/Ranking/" + userName + ".json", user);
+        
     }
 
-    public void GotoHome()
+    public void GotoRanking()
     {
-        SceneManager.LoadScene("Home");
+        GameFlowManager.WaveCount = 1;
+        SceneManager.LoadScene("Ranking");
+        
+    }
+
+    public void Retry()
+    {
+        GameFlowManager.WaveCount = 1;
+        SceneManager.LoadScene("MainGameScene");
     }
 }

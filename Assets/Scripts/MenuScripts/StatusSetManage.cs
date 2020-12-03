@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 
 public class StatusSetManage : MonoBehaviour
 {
-    public InputField nameText;
+ 
     public static int userFollowerCount;
     public static int userRepositoryCount;
     public static double userStandardDev;
@@ -40,7 +40,6 @@ public class StatusSetManage : MonoBehaviour
 
     public void OnGetScore()
     {
-        registrationUser = nameText.text;
         RetrieveFromDatabase();
     }
 
@@ -61,10 +60,24 @@ public class StatusSetManage : MonoBehaviour
 
     private void RetrieveFromDatabase()
     {
-        RestClient.Get<User>("https://apigame-39.firebaseio.com/Ranking/" + nameText.text + ".json").Then(response =>
+       
+        if(PlayerPrefs.HasKey("PlayerId"))
         {
-            user = response;
-            UpdateScore();
-        });
+            RestClient.Get<User>("https://apigame-39.firebaseio.com/Ranking/" + PlayerPrefs.GetString("PlayerId") + ".json").Then(response =>
+            {
+                user = response;
+                UpdateScore();
+            });
+        }
+        else
+        {
+            SceneManager.LoadScene("DataRegistration");
+        }
+
+    }
+
+    public void ClearPrefs()
+    {
+        PlayerPrefs.DeleteKey("PlayerId");
     }
 }

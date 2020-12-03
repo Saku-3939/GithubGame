@@ -17,9 +17,9 @@ public class TitleManager : MonoBehaviour
         
     }
 
-    public void OnClickHomebutton()
+    public void OnClickRankingButton()
     {
-        SceneManager.LoadScene("Home");
+        SceneManager.LoadScene("Ranking");
     }
 
 }

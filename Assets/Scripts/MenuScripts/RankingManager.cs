@@ -50,14 +50,14 @@ public class RankingManager : MonoBehaviour
         //コントリビュート数が一番多い人を取得
         _FirebaseDB.OrderByChild("followers").LimitToLast(4).GetValueAsync().ContinueWith(response =>
         {
-        if (response.IsFaulted)
+            userList.Clear();
+            scoreList.Clear();
+            if (response.IsFaulted)
             {
                 Debug.Log("エラーが発生しました");
             }else if (response.IsCompleted)
             {
                 //Debug.Log("成功しました");
-                userList.Clear();
-                scoreList.Clear();
 
                 DataSnapshot snapshot = response.Result;
                 IEnumerator<DataSnapshot> result = snapshot.Children.GetEnumerator();
@@ -92,6 +92,8 @@ public class RankingManager : MonoBehaviour
         //コントリビュート数が一番多い人を取得
         _FirebaseDB.OrderByChild("stddev").LimitToLast(4).GetValueAsync().ContinueWith(response =>
         {
+            userList.Clear();
+            scoreList.Clear();
             if (response.IsFaulted)
             {
                 Debug.Log("エラーが発生しました");
@@ -99,8 +101,6 @@ public class RankingManager : MonoBehaviour
             else if (response.IsCompleted)
             {
                 //Debug.Log("成功しました");
-                userList.Clear();
-                scoreList.Clear();
 
 
                 DataSnapshot snapshot = response.Result;
@@ -142,6 +142,8 @@ public class RankingManager : MonoBehaviour
         //コントリビュート数が一番多い人を取得
         _FirebaseDB.OrderByChild("totalContribute").LimitToLast(4).GetValueAsync().ContinueWith(response =>
         {
+            userList.Clear();
+            scoreList.Clear();
             if (response.IsFaulted)
             {
                 Debug.Log("エラーが発生しました");
@@ -149,8 +151,6 @@ public class RankingManager : MonoBehaviour
             else if (response.IsCompleted)
             {
                 //Debug.Log("成功しました");
-                userList.Clear();
-                scoreList.Clear();
 
 
 
@@ -186,6 +186,8 @@ public class RankingManager : MonoBehaviour
         //コントリビュート数が一番多い人を取得
         _FirebaseDB.OrderByChild("repositoryCount").LimitToLast(4).GetValueAsync().ContinueWith(response =>
         {
+            userList.Clear();
+            scoreList.Clear();
             if (response.IsFaulted)
             {
                 Debug.Log("エラーが発生しました");
@@ -193,9 +195,6 @@ public class RankingManager : MonoBehaviour
             else if (response.IsCompleted)
             {
                 //Debug.Log("成功しました");
-                userList.Clear();
-                scoreList.Clear();
-
                 DataSnapshot snapshot = response.Result;
                 IEnumerator<DataSnapshot> result = snapshot.Children.GetEnumerator();
                 string jsonString = response.ToString();
@@ -224,8 +223,11 @@ public class RankingManager : MonoBehaviour
 
     public void GetGameScore()
     {
+
         _FirebaseDB.OrderByChild("gameScore").LimitToLast(4).GetValueAsync().ContinueWith(response =>
         {
+            userList.Clear();
+            scoreList.Clear();
             if (response.IsFaulted)
             {
                 Debug.Log("エラーが発生しました");
@@ -233,8 +235,7 @@ public class RankingManager : MonoBehaviour
             else if (response.IsCompleted)
             {
                 //Debug.Log("成功しました");
-                userList.Clear();
-                scoreList.Clear();
+
 
                 DataSnapshot snapshot = response.Result;
                 IEnumerator<DataSnapshot> result = snapshot.Children.GetEnumerator();
@@ -269,11 +270,15 @@ public class RankingManager : MonoBehaviour
         userList.Reverse();
         scoreList.Reverse();
 
-        for (int i = 0; i <= ranking.Length - 1; i++)
+        for (int i = 0; i <= ranking.Length ; i++)
         {
             //ranking[i].text =　(i+1) + " : " + userList[i] + "  Score : " + scoreList[i];
+            
             ranking[i].text = userList[i];
             rankingScore[i].text = scoreList[i].ToString();
+            Debug.Log("ランキングの長さ　:" + ranking.Length);
+            Debug.Log("ユーザーリストの長さ" + userList.Count);
+            Debug.Log("スコアリストの長さ" + scoreList.Count);
         }
     }
 
@@ -284,16 +289,16 @@ public class RankingManager : MonoBehaviour
 
     IEnumerator WaitRetrive()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(1f);
 
         SetRanking();
         
     }
 
 
-    public void OnClickHome()
+    public void OnClickTitle()
     {
-        SceneManager.LoadScene("Home");
+        SceneManager.LoadScene("Title");
     }
 
 }

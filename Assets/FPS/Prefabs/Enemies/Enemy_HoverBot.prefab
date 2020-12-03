@@ -152,7 +152,7 @@ MonoBehaviour:
   deathVFXSpawnPoint: {fileID: 381893446485871685}
   lootPrefab: {fileID: 2529580269645609534, guid: 9973c412032becb4ca116ca08be62edf,
     type: 3}
-  dropRate: 1
+  dropRate: 0.366
   pathReachingRangeColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   attackRangeColor: {r: 1, g: 0, b: 0, a: 1}
   detectionRangeColor: {r: 0, g: 0, b: 1, a: 1}
@@ -180,7 +180,7 @@ MonoBehaviour:
   - {fileID: 1407167163009738010}
   - {fileID: 6104096765092005263}
   onDetectSFX: {fileID: 8300000, guid: 25722734eeccba042a18e26e376ca542, type: 3}
-  MovementSound: {fileID: 0}
+  MovementSound: {fileID: 8300000, guid: 44c5f76f80602024e82d3e5f3af4ee97, type: 3}
   PitchDistortionMovementSpeed:
     min: 1
     max: 1.5
@@ -467,8 +467,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   detectionSourcePoint: {fileID: 6571005840976436832}
-  detectionRange: 20
-  attackRange: 10
+  detectionRange: 30
+  attackRange: 20
   knownTargetTimeout: 12
   animator: {fileID: 0}
 --- !u!1 &6421371450313891992
@@ -780,7 +780,6 @@ MonoBehaviour:
   recoilForce: 1
   aimZoomRatio: 1
   aimOffset: {x: 0, y: 0, z: 0}
-  ammoReloadRate: 0.5
   ammoReloadDelay: 0.5
   maxAmmo: 100
   automaticReleaseOnCharged: 0
