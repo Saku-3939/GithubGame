@@ -59,8 +59,12 @@ public class GameFlowManager : MonoBehaviour
             // See if it's time to load the end scene (after the delay)
             if (Time.time >= m_TimeLoadEndGameScene)
             {
-                WaveCount++;
+                
                 SceneManager.LoadScene(m_SceneToLoad);
+                if(m_SceneToLoad == "MainGameScene")
+                {
+                    WaveCount++;
+                }
                 gameIsEnding = false;
             }
         }

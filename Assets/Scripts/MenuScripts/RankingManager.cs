@@ -47,22 +47,30 @@ public class RankingManager : MonoBehaviour
 
     public void GetFollowerData()
     {
+      
         //コントリビュート数が一番多い人を取得
-        _FirebaseDB.OrderByChild("followers").LimitToLast(4).GetValueAsync().ContinueWith(response =>
+        _FirebaseDB.OrderByChild("followers").LimitToLast(6).GetValueAsync().ContinueWith(response =>
         {
+            //動いてる
             userList.Clear();
             scoreList.Clear();
+
             if (response.IsFaulted)
             {
                 Debug.Log("エラーが発生しました");
             }else if (response.IsCompleted)
             {
-                //Debug.Log("成功しました");
+                //動いてる
+                Debug.Log("成功しました");
+
+
+                Debug.Log(response.Result.ChildrenCount);
 
                 DataSnapshot snapshot = response.Result;
                 IEnumerator<DataSnapshot> result = snapshot.Children.GetEnumerator();
-                string jsonString = response.ToString();
-                
+
+                //snapshotが3つだけ
+                Debug.Log(snapshot.ChildrenCount);
 
                 JSONNode json = JSONNode.Parse(snapshot.GetRawJsonValue());
 
@@ -90,7 +98,7 @@ public class RankingManager : MonoBehaviour
     public void GetstddevData()
     {
         //コントリビュート数が一番多い人を取得
-        _FirebaseDB.OrderByChild("stddev").LimitToLast(4).GetValueAsync().ContinueWith(response =>
+        _FirebaseDB.OrderByChild("stddev").LimitToLast(6).GetValueAsync().ContinueWith(response =>
         {
             userList.Clear();
             scoreList.Clear();
@@ -100,12 +108,13 @@ public class RankingManager : MonoBehaviour
             }
             else if (response.IsCompleted)
             {
-                //Debug.Log("成功しました");
+                Debug.Log("成功しました");
 
 
                 DataSnapshot snapshot = response.Result;
                 IEnumerator<DataSnapshot> result = snapshot.Children.GetEnumerator();
                 string jsonString = response.ToString();
+
 
 
                 JSONNode json = JSONNode.Parse(snapshot.GetRawJsonValue());
@@ -140,7 +149,7 @@ public class RankingManager : MonoBehaviour
     public void GetContributeData()
     {
         //コントリビュート数が一番多い人を取得
-        _FirebaseDB.OrderByChild("totalContribute").LimitToLast(4).GetValueAsync().ContinueWith(response =>
+        _FirebaseDB.OrderByChild("totalContribute").LimitToLast(6).GetValueAsync().ContinueWith(response =>
         {
             userList.Clear();
             scoreList.Clear();
@@ -150,7 +159,7 @@ public class RankingManager : MonoBehaviour
             }
             else if (response.IsCompleted)
             {
-                //Debug.Log("成功しました");
+                Debug.Log("成功しました");
 
 
 
@@ -184,7 +193,7 @@ public class RankingManager : MonoBehaviour
     public void GetRepositoryData()
     {
         //コントリビュート数が一番多い人を取得
-        _FirebaseDB.OrderByChild("repositoryCount").LimitToLast(4).GetValueAsync().ContinueWith(response =>
+        _FirebaseDB.OrderByChild("repositoryCount").LimitToLast(6).GetValueAsync().ContinueWith(response =>
         {
             userList.Clear();
             scoreList.Clear();
@@ -194,7 +203,7 @@ public class RankingManager : MonoBehaviour
             }
             else if (response.IsCompleted)
             {
-                //Debug.Log("成功しました");
+                Debug.Log("成功しました");
                 DataSnapshot snapshot = response.Result;
                 IEnumerator<DataSnapshot> result = snapshot.Children.GetEnumerator();
                 string jsonString = response.ToString();
@@ -224,7 +233,7 @@ public class RankingManager : MonoBehaviour
     public void GetGameScore()
     {
 
-        _FirebaseDB.OrderByChild("gameScore").LimitToLast(4).GetValueAsync().ContinueWith(response =>
+        _FirebaseDB.OrderByChild("gameScore").LimitToLast(6).GetValueAsync().ContinueWith(response =>
         {
             userList.Clear();
             scoreList.Clear();
@@ -234,7 +243,7 @@ public class RankingManager : MonoBehaviour
             }
             else if (response.IsCompleted)
             {
-                //Debug.Log("成功しました");
+                Debug.Log("成功しました");
 
 
                 DataSnapshot snapshot = response.Result;
@@ -244,7 +253,7 @@ public class RankingManager : MonoBehaviour
 
                 JSONNode json = JSONNode.Parse(snapshot.GetRawJsonValue());
 
-                Debug.Log("呼び出されました");
+                
 
 
                 while (result.MoveNext())
@@ -270,7 +279,7 @@ public class RankingManager : MonoBehaviour
         userList.Reverse();
         scoreList.Reverse();
 
-        for (int i = 0; i <= ranking.Length ; i++)
+        for (int i = 0; i <= ranking.Length - 1 ; i++)
         {
             //ranking[i].text =　(i+1) + " : " + userList[i] + "  Score : " + scoreList[i];
             

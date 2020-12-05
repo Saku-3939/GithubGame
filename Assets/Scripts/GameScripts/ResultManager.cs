@@ -41,7 +41,7 @@ public class ResultManager : MonoBehaviour
 
         User user = new User();
 
-        RestClient.Put("https://apigame-39.firebaseio.com/Ranking/" + userName + ".json", user);
+        RestClient.Put("https://apigame-39.firebaseio.com/Ranking/" + PlayerPrefs.GetString("PlayerId") + ".json", user);
         
     }
 

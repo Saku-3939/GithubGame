@@ -14,6 +14,9 @@ public class RegistrationManager : MonoBehaviour
     public InputField repoText;
     public InputField identifyText;
 
+    public StatusSetManage statusManager;
+    public GameObject errorMessage;
+
     public static string playerName;
     public static string repoName;
     public static int totalCommit;
@@ -173,13 +176,22 @@ public class RegistrationManager : MonoBehaviour
 
     public void PostToDataBase()
     {
+        if(totalRepository != 0)
+        {
+            User user = new User();
+
+            Debug.Log(playerName);
+
+            RestClient.Put("https://apigame-39.firebaseio.com/Ranking/" + playerName + ".json", user);
+
+            statusManager.RetrieveFromDatabase();
+        }
+        else
+        {
+            Debug.Log("登録に失敗しました");
+            errorMessage.SetActive(true);
+        }
         
-        User user = new User();
-
-
-
-        RestClient.Put("https://apigame-39.firebaseio.com/Ranking/" + playerName + ".json", user);
-
 
     }
 

@@ -58,7 +58,7 @@ public class StatusSetManage : MonoBehaviour
         SceneManager.LoadScene("MainGameScene");
     }
 
-    private void RetrieveFromDatabase()
+    public void RetrieveFromDatabase()
     {
        
         if(PlayerPrefs.HasKey("PlayerId"))
