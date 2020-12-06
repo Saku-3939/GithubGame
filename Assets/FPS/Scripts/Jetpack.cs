@@ -53,7 +53,7 @@ public class Jetpack : MonoBehaviour
 
     void Start()
     {
-        consumeDuration = 1.5f + StatusSetManage.userRepositoryCount / 10;
+        consumeDuration = 1.5f + StatusSetManage.userTotalContribute / 10;
 
         Debug.Log(isJetpackUnlocked);
 

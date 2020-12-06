@@ -15,6 +15,7 @@ public class ResultManager : MonoBehaviour
 {
     private DatabaseReference _FirebaseDB;
 
+    public GameObject errorMessage;
     public Text resultWave;
     public InputField nameText;
     public int waveCount;
@@ -45,16 +46,24 @@ public class ResultManager : MonoBehaviour
         identifyName = nameText.text;
         gameScore = waveCount;
 
-        _FirebaseDB.Child(PlayerPrefs.GetString("PlayerId")).Child("identifyName").SetValueAsync(identifyName);
-        _FirebaseDB.Child(PlayerPrefs.GetString("PlayerId")).Child("gameScore").SetValueAsync(gameScore);
+        if(identifyName != "")
+        {
+            _FirebaseDB.Child(PlayerPrefs.GetString("PlayerId")).Child("identifyName").SetValueAsync(identifyName);
+            _FirebaseDB.Child(PlayerPrefs.GetString("PlayerId")).Child("gameScore").SetValueAsync(gameScore);
+        }
+        else
+        {
+            Debug.Log("ランキングに登録する名前を入力してください");
+            errorMessage.SetActive(true);
+        }
 
 
         //User user = new User();
 
-        
+
 
         //RestClient.Put("https://apigame-39.firebaseio.com/Ranking/" + PlayerPrefs.GetString("PlayerId") + ".json", user);
-        
+
     }
 
     public void GotoRanking()
