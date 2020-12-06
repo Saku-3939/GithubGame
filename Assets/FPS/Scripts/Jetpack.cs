@@ -12,7 +12,7 @@ public class Jetpack : MonoBehaviour
 
     [Header("Parameters")]
     [Tooltip("Whether the jetpack is unlocked at the begining or not")]
-    public bool isJetpackUnlockedAtStart = false;
+    public bool isJetpackUnlockedAtStart = true;
     [Tooltip("The strength with which the jetpack pushes the player up")]
     public float jetpackAcceleration = 7f;
     [Range(0f, 1f)]
@@ -39,16 +39,23 @@ public class Jetpack : MonoBehaviour
     float m_LastTimeOfUse;
 
     // stored ratio for jetpack resource (1 is full, 0 is empty)
-    public float currentFillRatio { get; private set; }
-    public bool isJetpackUnlocked { get; private set; }
+    public float currentFillRatio { get; set; }
+    public bool isJetpackUnlocked { get; set; }
 
     public bool isPlayergrounded() => m_PlayerCharacterController.isGrounded;
 
     public UnityAction<bool> onUnlockJetpack;
 
-    void Start()
+    void Awake()
     {
         isJetpackUnlocked = isJetpackUnlockedAtStart;
+    }
+
+    void Start()
+    {
+        consumeDuration = 1.5f + StatusSetManage.userRepositoryCount / 10;
+
+        Debug.Log(isJetpackUnlocked);
 
         m_PlayerCharacterController = GetComponent<PlayerCharacterController>();
         DebugUtility.HandleErrorIfNullGetComponent<PlayerCharacterController, Jetpack>(m_PlayerCharacterController, this, gameObject);

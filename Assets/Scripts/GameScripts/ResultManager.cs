@@ -7,9 +7,14 @@ using Proyecto26;
 using UnityEditor;
 using SimpleJSON;
 using UnityEngine.SceneManagement;
+using Firebase;
+using Firebase.Database;
+using Firebase.Unity.Editor;
 
 public class ResultManager : MonoBehaviour
 {
+    private DatabaseReference _FirebaseDB;
+
     public Text resultWave;
     public InputField nameText;
     public int waveCount;
@@ -21,7 +26,8 @@ public class ResultManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        _FirebaseDB = FirebaseDatabase.DefaultInstance.GetReference("/Ranking");
+
         userName = StatusSetManage.registrationUser;
         waveCount = GameFlowManager.WaveCount;
         resultWave.text = "Your Result : Wave" + waveCount;
@@ -39,9 +45,15 @@ public class ResultManager : MonoBehaviour
         identifyName = nameText.text;
         gameScore = waveCount;
 
-        User user = new User();
+        _FirebaseDB.Child(PlayerPrefs.GetString("PlayerId")).Child("identifyName").SetValueAsync(identifyName);
+        _FirebaseDB.Child(PlayerPrefs.GetString("PlayerId")).Child("gameScore").SetValueAsync(gameScore);
 
-        RestClient.Put("https://apigame-39.firebaseio.com/Ranking/" + PlayerPrefs.GetString("PlayerId") + ".json", user);
+
+        //User user = new User();
+
+        
+
+        //RestClient.Put("https://apigame-39.firebaseio.com/Ranking/" + PlayerPrefs.GetString("PlayerId") + ".json", user);
         
     }
 

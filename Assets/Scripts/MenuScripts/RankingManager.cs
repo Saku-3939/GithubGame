@@ -47,9 +47,10 @@ public class RankingManager : MonoBehaviour
 
     public void GetFollowerData()
     {
-      
+
+
         //コントリビュート数が一番多い人を取得
-        _FirebaseDB.OrderByChild("followers").LimitToLast(6).GetValueAsync().ContinueWith(response =>
+        _FirebaseDB.OrderByChild("followers").GetValueAsync().ContinueWith(response =>
         {
             //動いてる
             userList.Clear();
@@ -98,7 +99,7 @@ public class RankingManager : MonoBehaviour
     public void GetstddevData()
     {
         //コントリビュート数が一番多い人を取得
-        _FirebaseDB.OrderByChild("stddev").LimitToLast(6).GetValueAsync().ContinueWith(response =>
+        _FirebaseDB.OrderByChild("stddev").GetValueAsync().ContinueWith(response =>
         {
             userList.Clear();
             scoreList.Clear();
@@ -149,7 +150,7 @@ public class RankingManager : MonoBehaviour
     public void GetContributeData()
     {
         //コントリビュート数が一番多い人を取得
-        _FirebaseDB.OrderByChild("totalContribute").LimitToLast(6).GetValueAsync().ContinueWith(response =>
+        _FirebaseDB.OrderByChild("totalContribute").GetValueAsync().ContinueWith(response =>
         {
             userList.Clear();
             scoreList.Clear();
@@ -193,7 +194,7 @@ public class RankingManager : MonoBehaviour
     public void GetRepositoryData()
     {
         //コントリビュート数が一番多い人を取得
-        _FirebaseDB.OrderByChild("repositoryCount").LimitToLast(6).GetValueAsync().ContinueWith(response =>
+        _FirebaseDB.OrderByChild("repositoryCount").GetValueAsync().ContinueWith(response =>
         {
             userList.Clear();
             scoreList.Clear();
@@ -233,7 +234,7 @@ public class RankingManager : MonoBehaviour
     public void GetGameScore()
     {
 
-        _FirebaseDB.OrderByChild("gameScore").LimitToLast(6).GetValueAsync().ContinueWith(response =>
+        _FirebaseDB.OrderByChild("gameScore").GetValueAsync().ContinueWith(response =>
         {
             userList.Clear();
             scoreList.Clear();
