@@ -17,6 +17,7 @@ public class RegistrationManager : MonoBehaviour
     public StatusSetManage statusManager;
     public GameObject errorMessage;
 
+
     public static string playerName;
     public static string repoName;
     public static int totalCommit;
@@ -29,7 +30,7 @@ public class RegistrationManager : MonoBehaviour
 
     public void OnclickRegistration()
     {
-        if(nameText.text != null && repoText.text != null)
+        if(nameText.text != "" && repoText.text != "")
         {
             playerName = nameText.text;
             repoName = repoText.text;
@@ -42,6 +43,7 @@ public class RegistrationManager : MonoBehaviour
         else
         {
             Debug.Log("GithubIDとリポジトリ名を入力してください");
+            errorMessage.SetActive(true);
         }
 
         
@@ -83,19 +85,28 @@ public class RegistrationManager : MonoBehaviour
 
             double sumCommit_m = 0, sumCommit_v = 0;
 
+            double notZeroContribute = 0;
+
             double mean = 0;
             double variance = 0;
             double stddev = 0;
 
             for (int i = 0; i < json["owner"].Count; i++)
             {
-                sumCommit_m += json["owner"][i];
-                sumCommit_v += json["owner"][i] * json["owner"][i];
+                if(json["owner"][i] != 0)
+                {
+                    sumCommit_m += json["owner"][i];
+                    sumCommit_v += json["owner"][i] * json["owner"][i];
+                    notZeroContribute++;
+                }
+
             }
 
-            mean = sumCommit_m / json["owner"].Count;
+            Debug.Log(notZeroContribute);
 
-            variance = (sumCommit_v / json["owner"].Count) - (mean * mean);
+            mean = sumCommit_m / notZeroContribute;
+
+            variance = (sumCommit_v / notZeroContribute) - (mean * mean);
 
             stddev = Math.Sqrt(variance);
 
@@ -176,7 +187,7 @@ public class RegistrationManager : MonoBehaviour
 
     public void PostToDataBase()
     {
-        if(totalRepository != 0)
+        if(totalCommit != 0)
         {
             User user = new User();
 

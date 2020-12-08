@@ -55,16 +55,20 @@ public class StatusSetManage : MonoBehaviour
         userStandardDev = user.stddev;
         userTotalContribute = user.totalContribute;
 
+       
+
         SceneManager.LoadScene("MainGameScene");
     }
 
     public void RetrieveFromDatabase()
     {
        
-        if(PlayerPrefs.HasKey("PlayerId"))
+        if(PlayerPrefs.HasKey("PlayerId") && PlayerPrefs.GetString("PlayerId") != "")
         {
+            Debug.Log(PlayerPrefs.GetString("PlayerId"));
             RestClient.Get<User>("https://apigame-39.firebaseio.com/Ranking/" + PlayerPrefs.GetString("PlayerId") + ".json").Then(response =>
             {
+                Debug.Log("called!");
                 user = response;
                 UpdateScore();
             });

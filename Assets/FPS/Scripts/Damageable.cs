@@ -10,8 +10,11 @@ public class Damageable : MonoBehaviour
 
     public Health health { get; private set; }
 
+    public static float totalPlayerDamage;
+
     void Awake()
     {
+        
         // find the health component either at the same level, or higher in the hierarchy
         health = GetComponent<Health>();
         if (!health)
@@ -31,6 +34,11 @@ public class Damageable : MonoBehaviour
             {
                 Debug.Log("true!");
                 totalDamage +=  StatusSetManage.userTotalContribute * 3;
+            }
+
+            if(damageSource == gameObject.CompareTag("Player"))
+            {
+                totalPlayerDamage += totalDamage;
             }
 
             // skip the crit multiplier if it's from an explosion

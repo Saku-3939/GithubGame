@@ -16,13 +16,18 @@ public class ResultManager : MonoBehaviour
     private DatabaseReference _FirebaseDB;
 
     public GameObject errorMessage;
+    public GameObject successMessage;
     public Text resultWave;
+
     public InputField nameText;
     public int waveCount;
+    public float totalTakenDamage;
     public string userName;
+    
 
     public static string identifyName;
     public static int gameScore;
+
 
     // Start is called before the first frame update
     void Start()
@@ -31,7 +36,11 @@ public class ResultManager : MonoBehaviour
 
         userName = StatusSetManage.registrationUser;
         waveCount = GameFlowManager.WaveCount;
-        resultWave.text = "Your Result : Wave" + waveCount;
+        totalTakenDamage = Damageable.totalPlayerDamage;
+
+        gameScore = waveCount * 10 + (100 - (int)totalTakenDamage / 10);
+
+        resultWave.text =　"クリアしたウェーブ数 :" +  waveCount + "\n" + "受けたダメージ数 :" + totalTakenDamage + "\n" +  "今回のスコア : " + gameScore;
         
     }
 
@@ -44,12 +53,13 @@ public class ResultManager : MonoBehaviour
     public void OnclickRegistration()
     {
         identifyName = nameText.text;
-        gameScore = waveCount;
 
         if(identifyName != "")
         {
             _FirebaseDB.Child(PlayerPrefs.GetString("PlayerId")).Child("identifyName").SetValueAsync(identifyName);
             _FirebaseDB.Child(PlayerPrefs.GetString("PlayerId")).Child("gameScore").SetValueAsync(gameScore);
+
+            successMessage.SetActive(true);
         }
         else
         {
@@ -68,6 +78,7 @@ public class ResultManager : MonoBehaviour
 
     public void GotoRanking()
     {
+        Damageable.totalPlayerDamage = 0;
         GameFlowManager.WaveCount = 1;
         SceneManager.LoadScene("Ranking");
         
@@ -75,6 +86,7 @@ public class ResultManager : MonoBehaviour
 
     public void Retry()
     {
+        Damageable.totalPlayerDamage = 0;
         GameFlowManager.WaveCount = 1;
         SceneManager.LoadScene("MainGameScene");
     }

@@ -9,7 +9,9 @@ public class GameFlowManager : MonoBehaviour
     [Tooltip("The canvas group of the fade-to-black screen")]
     public CanvasGroup endGameFadeCanvasGroup;
 
-    public static int WaveCount = 1; 
+    public static int WaveCount = 1;
+    public GameObject wave3Enemy;
+    public GameObject wave5Enemy;
 
     [Header("Win")]
     [Tooltip("This string has to be the name of the scene you want to load when winning")]
@@ -38,6 +40,15 @@ public class GameFlowManager : MonoBehaviour
 
     void Start()
     {
+        if (WaveCount >= 3)
+        {
+            wave3Enemy.SetActive(true);
+            if (WaveCount >= 5)
+            {
+                wave5Enemy.SetActive(true);
+            }
+        }
+
         m_Player = FindObjectOfType<PlayerCharacterController>();
         DebugUtility.HandleErrorIfNullFindObject<PlayerCharacterController, GameFlowManager>(m_Player, this);
 
@@ -64,6 +75,7 @@ public class GameFlowManager : MonoBehaviour
                 if(m_SceneToLoad == "MainGameScene")
                 {
                     WaveCount++;
+
                 }
                 gameIsEnding = false;
             }
