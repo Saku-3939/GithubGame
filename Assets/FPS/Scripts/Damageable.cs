@@ -10,6 +10,7 @@ public class Damageable : MonoBehaviour
 
     public Health health { get; private set; }
 
+    public static float totalPlayerTakenDamage;
     public static float totalPlayerDamage;
 
     void Awake()
@@ -32,13 +33,14 @@ public class Damageable : MonoBehaviour
 
             if (damageSource == gameObject.CompareTag("Enemy"))
             {
-                Debug.Log("true!");
+                
                 totalDamage +=  StatusSetManage.userTotalContribute * 3;
+                totalPlayerDamage += totalDamage;
             }
 
             if(damageSource == gameObject.CompareTag("Player"))
             {
-                totalPlayerDamage += totalDamage;
+                totalPlayerTakenDamage += totalDamage;
             }
 
             // skip the crit multiplier if it's from an explosion

@@ -18,11 +18,15 @@ public class ResultManager : MonoBehaviour
     public GameObject errorMessage;
     public GameObject successMessage;
     public Text resultWave;
+    public Text damageText;
+    public Text scoreText;
 
     public InputField nameText;
     public int waveCount;
+    public float totalDamage;
     public float totalTakenDamage;
     public string userName;
+
     
 
     public static string identifyName;
@@ -36,11 +40,15 @@ public class ResultManager : MonoBehaviour
 
         userName = StatusSetManage.registrationUser;
         waveCount = GameFlowManager.WaveCount;
-        totalTakenDamage = Damageable.totalPlayerDamage;
+        totalTakenDamage = Damageable.totalPlayerTakenDamage;
+        totalDamage = Damageable.totalPlayerDamage;
+        
 
-        gameScore = waveCount * 10 + (100 - (int)totalTakenDamage / 10);
+        gameScore = waveCount * 10 + (100 - (int)totalTakenDamage / 10) + (int)totalDamage /10;
 
-        resultWave.text =　"クリアしたウェーブ数 :" +  waveCount + "\n" + "受けたダメージ数 :" + totalTakenDamage + "\n" +  "今回のスコア : " + gameScore;
+        resultWave.text = waveCount.ToString();
+        damageText.text = totalTakenDamage.ToString();
+        scoreText.text = gameScore.ToString();
         
     }
 
@@ -78,6 +86,7 @@ public class ResultManager : MonoBehaviour
 
     public void GotoRanking()
     {
+        Damageable.totalPlayerTakenDamage = 0;
         Damageable.totalPlayerDamage = 0;
         GameFlowManager.WaveCount = 1;
         SceneManager.LoadScene("Ranking");
@@ -86,6 +95,7 @@ public class ResultManager : MonoBehaviour
 
     public void Retry()
     {
+        Damageable.totalPlayerTakenDamage = 0;
         Damageable.totalPlayerDamage = 0;
         GameFlowManager.WaveCount = 1;
         SceneManager.LoadScene("MainGameScene");
