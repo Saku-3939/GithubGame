@@ -23,6 +23,8 @@ public class RankingManager : MonoBehaviour
     public Text rankingNameText;
     public Text scoreText;
 
+    public List<Button> buttons;
+
     public List<string> userList = new List<string>();
     public List<int> scoreList = new List<int>();
 
@@ -86,8 +88,12 @@ public class RankingManager : MonoBehaviour
                     //Firebaseの数値データはLong型となっているので、一度longで受け取った後にintにキャスト
                     int score = (int)(long)data.Child("followers").GetValue(true);
 
-                    userList.Add(name);
-                    scoreList.Add(score);
+                    if(name != "")
+                    {
+                        userList.Add(name);
+                        scoreList.Add(score);
+                    }
+
 
                 }
                 
@@ -135,8 +141,14 @@ public class RankingManager : MonoBehaviour
 
                     int score = 100 - (int)sub;
 
-                    userList.Add(name);
-                    scoreList.Add(score);
+                    if(stddev != 0 && name != "")
+                    {
+                        userList.Add(name);
+                        scoreList.Add(score);
+                    }
+
+
+
 
                 }
                 userList.Reverse();
@@ -181,9 +193,13 @@ public class RankingManager : MonoBehaviour
                     //Firebaseの数値データはLong型となっているので、一度longで受け取った後にintにキャスト
                     int score = (int)(long)data.Child("totalContribute").GetValue(true);
 
+                    if(name != "")
+                    {
+                        userList.Add(name);
+                        scoreList.Add(score);
+                    }
 
-                    userList.Add(name);
-                    scoreList.Add(score);
+
 
                 }
             }
@@ -223,8 +239,13 @@ public class RankingManager : MonoBehaviour
                     //Firebaseの数値データはLong型となっているので、一度longで受け取った後にintにキャスト
                     int score = (int)(long)data.Child("repositoryCount").GetValue(true);
 
-                    userList.Add(name);
-                    scoreList.Add(score);
+                    if(name != "")
+                    {
+                        userList.Add(name);
+                        scoreList.Add(score);
+                    }
+
+
 
                 }
             }
@@ -265,10 +286,13 @@ public class RankingManager : MonoBehaviour
                     //Firebaseの数値データはLong型となっているので、一度longで受け取った後にintにキャスト
                     int score = (int)(long)data.Child("gameScore").GetValue(true);
 
-                    
+                    if(name != "")
+                    {
+                        userList.Add(name);
+                        scoreList.Add(score);
+                    }
 
-                    userList.Add(name);
-                    scoreList.Add(score);
+
 
                 }
             }
@@ -299,9 +323,19 @@ public class RankingManager : MonoBehaviour
 
     IEnumerator WaitRetrive()
     {
+        for (int i = 0; i <= buttons.Count - 1; i++)
+        {
+            buttons[i].enabled = false;
+        }
+        
         yield return new WaitForSeconds(1f);
 
         SetRanking();
+
+        for(int i = 0; i <= buttons.Count - 1; i++)
+        {
+            buttons[i].enabled = true;
+        }
         
     }
 

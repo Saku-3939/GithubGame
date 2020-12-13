@@ -16,6 +16,7 @@ public class RegistrationManager : MonoBehaviour
 
     public StatusSetManage statusManager;
     public GameObject errorMessage;
+    public GameObject zeroContibuteMessage;
 
 
     public static string playerName;
@@ -52,16 +53,19 @@ public class RegistrationManager : MonoBehaviour
     IEnumerator GetData()
     {
         GetFromGithub();
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(2);
 
         PostToDataBase();
     }
 
     public void GetFromGithub()
     {
+        {
+            
         //リポジトリへのコミット数
         RestClient.Get("https://api.github.com/repos/" + playerName + "/" + repoName + "/stats/contributors").Then(response =>
         {
+       
             string jsonString = response.Text;
             JSONNode json = JSONNode.Parse(jsonString);
 
@@ -74,7 +78,6 @@ public class RegistrationManager : MonoBehaviour
                 }
 
             }
-
         });
 
         //52週間でのコミット数の標準偏差
@@ -99,16 +102,25 @@ public class RegistrationManager : MonoBehaviour
                     sumCommit_v += json["owner"][i] * json["owner"][i];
                     notZeroContribute++;
                 }
-
+                
             }
 
             Debug.Log(notZeroContribute);
+
+
 
             mean = sumCommit_m / notZeroContribute;
 
             variance = (sumCommit_v / notZeroContribute) - (mean * mean);
 
             stddev = Math.Sqrt(variance);
+
+            if (notZeroContribute == 0)
+            {
+                stddev = 1;
+                mean = 1;
+                variance = 1;
+            }
 
             standartDeviation = stddev;
 
@@ -172,8 +184,9 @@ public class RegistrationManager : MonoBehaviour
             JSONNode json = JSONNode.Parse(jsonString);
 
             totalRepository = json.Count;
-            Debug.Log(totalRepository);
+            //Debug.Log(totalRepository);
         });
+
 
         RestClient.Get("https://api.github.com/users/" + playerName + "/followers").Then(response =>
         {
@@ -183,6 +196,9 @@ public class RegistrationManager : MonoBehaviour
             followerCount = json.Count;
         });
 
+        
+       
+      }
     }
 
     public void PostToDataBase()
@@ -195,12 +211,12 @@ public class RegistrationManager : MonoBehaviour
 
             RestClient.Put("https://apigame-39.firebaseio.com/Ranking/" + playerName + ".json", user);
 
-            statusManager.RetrieveFromDatabase();
+            StartCoroutine(statusManager.RetrieveFromDatabase());
         }
         else
         {
             Debug.Log("登録に失敗しました");
-            errorMessage.SetActive(true);
+            zeroContibuteMessage.SetActive(true);
         }
         
 

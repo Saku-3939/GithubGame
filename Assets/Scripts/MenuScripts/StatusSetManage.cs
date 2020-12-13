@@ -40,7 +40,7 @@ public class StatusSetManage : MonoBehaviour
 
     public void OnGetScore()
     {
-        RetrieveFromDatabase();
+        StartCoroutine(RetrieveFromDatabase());
     }
 
     private void UpdateScore()
@@ -60,12 +60,13 @@ public class StatusSetManage : MonoBehaviour
         SceneManager.LoadScene("MainGameScene");
     }
 
-    public void RetrieveFromDatabase()
+    public IEnumerator RetrieveFromDatabase()
     {
        
         if(PlayerPrefs.HasKey("PlayerId") && PlayerPrefs.GetString("PlayerId") != "")
         {
             Debug.Log(PlayerPrefs.GetString("PlayerId"));
+            yield return new WaitForSeconds(1);
             RestClient.Get<User>("https://apigame-39.firebaseio.com/Ranking/" + PlayerPrefs.GetString("PlayerId") + ".json").Then(response =>
             {
                 Debug.Log("called!");
