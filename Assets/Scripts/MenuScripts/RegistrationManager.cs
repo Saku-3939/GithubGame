@@ -117,9 +117,9 @@ public class RegistrationManager : MonoBehaviour
 
             if (notZeroContribute == 0)
             {
-                stddev = 1;
-                mean = 1;
-                variance = 1;
+                stddev = 0;
+                mean = 0;
+                variance = 0;
             }
 
             standartDeviation = stddev;
